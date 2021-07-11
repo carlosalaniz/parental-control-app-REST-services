@@ -1,0 +1,22 @@
+{
+    "env": "development",
+    "dbConfig": {
+        "host": "localhost",
+        "user": "node",
+        "password": "qhi5h4po",
+        "database": "parental_control",
+        "pool": {
+            "min": 0,
+            "max": 5
+        }
+    },
+    "secretKey": "secretKey",
+    "log": {
+        "format": "dev",
+        "dir": "../logs"
+    },
+    "cors": {
+        "origin": true,
+        "credentials": true
+    }
+}
