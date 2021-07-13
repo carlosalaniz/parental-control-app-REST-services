@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateParentDto } from '@/dtos/parents.dto';
 import AuthRoute from '@routes/auth.route';
 
 afterAll(async () => {
@@ -12,9 +12,12 @@ afterAll(async () => {
 describe('Testing Auth', () => {
   describe('[POST] /signup', () => {
     it('response should have the Create userData', async () => {
-      const userData: CreateUserDto = {
+      const userData: CreateParentDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        full_name: 'Carlo Alaniz',
+        address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
+        phone_numer: '+16073041892',
       };
 
       const authRoute = new AuthRoute();
@@ -35,9 +38,12 @@ describe('Testing Auth', () => {
 
   describe('[POST] /login', () => {
     it('response should have the Set-Cookie header with the Authorization token', async () => {
-      const userData: CreateUserDto = {
+      const userData: CreateParentDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        full_name: 'Carlo Alaniz',
+        address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
+        phone_numer: '+16073041892',
       };
 
       const authRoute = new AuthRoute();

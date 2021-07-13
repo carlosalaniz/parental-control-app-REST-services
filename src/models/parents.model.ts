@@ -1,9 +1,9 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Parent } from '@/interfaces/parents.interface';
 
-export type UserCreationAttributes = Optional<Parent, 'id' | 'email' | 'password'>;
+export type ParentCreationAttributes = Optional<Parent, 'id' | 'email' | 'password'>;
 
-export class ParentModel extends Model<Parent, UserCreationAttributes> implements Parent {
+export class ParentModel extends Model<Parent, ParentCreationAttributes> implements Parent {
   public full_name: string;
   public phone_numer: string;
   public address: string;
@@ -45,7 +45,7 @@ export default function (sequelize: Sequelize): typeof ParentModel {
       },
     },
     {
-      tableName: 'users',
+      tableName: 'parents',
       sequelize,
     },
   );

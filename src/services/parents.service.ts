@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateParentDto } from '@/dtos/parents.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { Parent } from '@/interfaces/parents.interface';
 import { isEmpty } from '@utils/util';
 
 class UserService {
-  public users = DB.Users;
+  public users = DB.Parents;
 
   public async findAllUser(): Promise<Parent[]> {
     const allUser: Parent[] = await this.users.findAll();
@@ -22,7 +22,7 @@ class UserService {
     return findUser;
   }
 
-  public async createUser(userData: CreateUserDto): Promise<Parent> {
+  public async createUser(userData: CreateParentDto): Promise<Parent> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: Parent = await this.users.findOne({ where: { email: userData.email } });
@@ -33,7 +33,7 @@ class UserService {
     return createUserData;
   }
 
-  public async updateUser(userId: number, userData: CreateUserDto): Promise<Parent> {
+  public async updateUser(userId: number, userData: CreateParentDto): Promise<Parent> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: Parent = await this.users.findByPk(userId);

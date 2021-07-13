@@ -2,16 +2,16 @@ import bcrypt from 'bcrypt';
 import config from 'config';
 import jwt from 'jsonwebtoken';
 import DB from '@databases';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateParentDto } from '@/dtos/parents.dto';
 import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { Parent } from '@/interfaces/parents.interface';
 import { isEmpty } from '@utils/util';
 
 class AuthService {
-  public users = DB.Users;
+  public users = DB.Parents;
 
-  public async signup(userData: CreateUserDto): Promise<Parent> {
+  public async signup(userData: CreateParentDto): Promise<Parent> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: Parent = await this.users.findOne({ where: { email: userData.email } });
@@ -23,7 +23,7 @@ class AuthService {
     return createUserData;
   }
 
-  public async login(userData: CreateUserDto): Promise<{ cookie: string; findUser: Parent }> {
+  public async login(userData: CreateParentDto): Promise<{ cookie: string; findUser: Parent }> {
     if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
 
     const findUser: Parent = await this.users.findOne({ where: { email: userData.email } });

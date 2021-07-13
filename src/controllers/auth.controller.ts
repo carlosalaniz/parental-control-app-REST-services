@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateParentDto } from '@/dtos/parents.dto';
 import { Parent } from '@/interfaces/parents.interface';
 import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
@@ -9,7 +9,7 @@ class AuthController {
 
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: CreateParentDto = req.body;
       const signUpUserData: Parent = await this.authService.signup(userData);
 
       res.status(201).json({ data: signUpUserData, message: 'signup' });
@@ -20,7 +20,7 @@ class AuthController {
 
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: CreateParentDto = req.body;
       const { cookie, findUser } = await this.authService.login(userData);
 
       res.setHeader('Set-Cookie', [cookie]);

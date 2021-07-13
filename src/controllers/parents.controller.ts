@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
-import { CreateUserDto } from '@dtos/users.dto';
+import { CreateParentDto } from '@/dtos/parents.dto';
 import { Parent } from '@/interfaces/parents.interface';
-import userService from '@services/users.service';
+import userService from '@/services/parents.service';
 
 class UsersController {
   public userService = new userService();
@@ -29,7 +29,7 @@ class UsersController {
 
   public createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: CreateUserDto = req.body;
+      const userData: CreateParentDto = req.body;
       const createUserData: Parent = await this.userService.createUser(userData);
 
       res.status(201).json({ data: createUserData, message: 'created' });
@@ -41,7 +41,7 @@ class UsersController {
   public updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userId = Number(req.params.id);
-      const userData: CreateUserDto = req.body;
+      const userData: CreateParentDto = req.body;
       const updateUserData: Parent = await this.userService.updateUser(userId, userData);
 
       res.status(200).json({ data: updateUserData, message: 'updated' });

@@ -2,8 +2,8 @@ import bcrypt from 'bcrypt';
 import { Sequelize } from 'sequelize';
 import request from 'supertest';
 import App from '@/app';
-import { CreateUserDto } from '@dtos/users.dto';
-import UserRoute from '@routes/users.route';
+import { CreateParentDto } from '@/dtos/parents.dto';
+import UserRoute from '@/routes/parents.route';
 
 afterAll(async () => {
   await new Promise<void>(resolve => setTimeout(() => resolve(), 500));
@@ -60,9 +60,12 @@ describe('Testing Users', () => {
 
   describe('[POST] /users', () => {
     it('response Create user', async () => {
-      const userData: CreateUserDto = {
+      const userData: CreateParentDto = {
         email: 'test@email.com',
         password: 'q1w2e3r4!',
+        full_name: 'Carlo Alaniz',
+        address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
+        phone_numer: '+16073041892',
       };
 
       const usersRoute = new UserRoute();
@@ -84,9 +87,12 @@ describe('Testing Users', () => {
   describe('[PUT] /users/:id', () => {
     it('response Update user', async () => {
       const userId = 1;
-      const userData: CreateUserDto = {
+      const userData: CreateParentDto = {
         email: 'test@email.com',
         password: '1q2w3e4r!',
+        full_name: 'Carlo Alaniz',
+        address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
+        phone_numer: '+16073041892',
       };
 
       const usersRoute = new UserRoute();
