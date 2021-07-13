@@ -5,5 +5,4 @@ export interface Child {
   birth_date: Date;
   gender: number;
   phone_number: string;
-  //TODO: Add stripe payments.
 }
