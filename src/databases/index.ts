@@ -4,6 +4,7 @@ import { dbConfig } from '@interfaces/db.interface';
 import UserModel from '@/models/parents.model';
 import { logger } from '@utils/logger';
 import ChildModel from '@/models/children.model';
+import DeviceModel from '@/models/devices.model';
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
 const sequelize = new Sequelize.Sequelize(database, user, password, {
@@ -32,6 +33,7 @@ sequelize.authenticate();
 const DB = {
   Parents: UserModel(sequelize),
   Children: ChildModel(sequelize),
+  Devices: DeviceModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };
