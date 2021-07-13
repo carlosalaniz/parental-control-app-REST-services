@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Device } from '@/interfaces/devices.interface';
 import { ChildModel } from './children.model';
+import { DevicePositionModel } from './positions.model';
 
 export type ChildCreationAttributes = Optional<Device, 'id'>;
 
@@ -8,7 +9,6 @@ export class DeviceModel extends Model<Device, ChildCreationAttributes> implemen
   id: number;
   child_id: number;
   type: number;
-  last_known_position_id: number;
   device_locked: number;
   device_policy_id: string;
 
@@ -30,9 +30,6 @@ export default function (sequelize: Sequelize): typeof DeviceModel {
       type: {
         type: DataTypes.TINYINT,
       },
-      last_known_position_id: {
-        type: DataTypes.INTEGER,
-      },
       device_locked: {
         allowNull: false,
         type: DataTypes.BOOLEAN,
@@ -51,6 +48,12 @@ export default function (sequelize: Sequelize): typeof DeviceModel {
   DeviceModel.belongsTo(ChildModel, {
     foreignKey: {
       field: 'child_id',
+      allowNull: false,
+    },
+  });
+  DeviceModel.hasMany(DevicePositionModel, {
+    foreignKey: {
+      field: 'device_id',
       allowNull: false,
     },
   });
