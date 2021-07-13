@@ -10,6 +10,12 @@
             "max": 5
         }
     },
+    "noSqldbConfig": {
+        "uri": "localhost",
+        "user": "node",
+        "password": "qhi5h4po",
+        "database": "parental_control"
+    },
     "secretKey": "secretKey",
     "log": {
         "format": "dev",

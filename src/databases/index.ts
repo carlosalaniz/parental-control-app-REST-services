@@ -1,14 +1,26 @@
 import config from 'config';
 import Sequelize from 'sequelize';
-import { dbConfig } from '@interfaces/db.interface';
+import { sqlDbConfig, noSQLDbConfig } from '@interfaces/db.interface';
 import UserModel from '@/models/parents.model';
 import { logger } from '@utils/logger';
 import ChildModel from '@/models/children.model';
 import DeviceModel from '@/models/devices.model';
 import DevicePositions from '@/models/positions.model';
 import AndroidDeviceModel from '@/models/android.model';
+import AndroidDevicePolicyModel from '@/models/android_device_policy.model';
+import { mongoose } from '@typegoose/typegoose';
 
-const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
+const { host, user, password, database, pool }: sqlDbConfig = config.get('dbConfig');
+const noSqlConfig: noSQLDbConfig = config.get('noSqldbConfig');
+
+const typegoose = mongoose.connect(noSqlConfig.uri, {
+  user: noSqlConfig.user,
+  pass: noSqlConfig.password,
+  dbName: noSqlConfig.database,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+
 const sequelize = new Sequelize.Sequelize(database, user, password, {
   host: host,
   dialect: 'mysql',
@@ -38,8 +50,10 @@ const DB = {
   DevicePositions: DevicePositions(sequelize),
   Devices: DeviceModel(sequelize),
   AndroidDevices: AndroidDeviceModel(sequelize),
+  AndroidDevicePolicies: AndroidDevicePolicyModel(),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
+  typegoose, // connection instance (RAW quieries)
 };
 
 export default DB;

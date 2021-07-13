@@ -46,8 +46,7 @@ REST services that support parental control application
 | [command](#command-types-constants)       | Tinyint |
 | [status](#command-status-types-constants) | Tinyint |
 | payload                                   | String  |
-| delivered_at                              | Date    |
-| last_status_update_at                     | Date    |
+| updated_at                                | Date    |
 
 ##### Device Positions (RDB)
 | Field                          | Type    |                                      |
