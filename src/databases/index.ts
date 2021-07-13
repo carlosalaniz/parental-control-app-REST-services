@@ -6,6 +6,7 @@ import { logger } from '@utils/logger';
 import ChildModel from '@/models/children.model';
 import DeviceModel from '@/models/devices.model';
 import DevicePositions from '@/models/positions.model';
+import AndroidDeviceModel from '@/models/android.model';
 
 const { host, user, password, database, pool }: dbConfig = config.get('dbConfig');
 const sequelize = new Sequelize.Sequelize(database, user, password, {
@@ -36,6 +37,7 @@ const DB = {
   Children: ChildModel(sequelize),
   DevicePositions: DevicePositions(sequelize),
   Devices: DeviceModel(sequelize),
+  AndroidDevices: AndroidDeviceModel(sequelize),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
 };
