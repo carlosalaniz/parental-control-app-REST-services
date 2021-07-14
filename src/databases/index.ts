@@ -9,6 +9,7 @@ import DevicePositions from '@/models/positions.model';
 import AndroidDeviceModel from '@/models/android.model';
 import AndroidDevicePolicyModel from '@/models/android_device_policy.model';
 import { mongoose } from '@typegoose/typegoose';
+import AndroidDeviceReportModel from '@/models/android_device_report.model';
 
 const { host, user, password, database, pool }: sqlDbConfig = config.get('dbConfig');
 const noSqlConfig: noSQLDbConfig = config.get('noSqldbConfig');
@@ -51,6 +52,7 @@ const DB = {
   Devices: DeviceModel(sequelize),
   AndroidDevices: AndroidDeviceModel(sequelize),
   AndroidDevicePolicies: AndroidDevicePolicyModel(),
+  AndroidDeviceReports: AndroidDeviceReportModel(),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
   typegoose, // connection instance (RAW quieries)
