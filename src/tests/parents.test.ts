@@ -13,7 +13,7 @@ describe('Testing Users', () => {
   describe('[GET] /users', () => {
     it('response findAll users', async () => {
       const usersRoute = new UserRoute();
-      const users = usersRoute.usersController.userService.users;
+      const users = usersRoute.parentsController.parentService.parents;
 
       users.findAll = jest.fn().mockReturnValue([
         {
@@ -44,7 +44,7 @@ describe('Testing Users', () => {
       const userId = 1;
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.usersController.userService.users;
+      const users = usersRoute.parentsController.parentService.parents;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: 1,
@@ -69,7 +69,7 @@ describe('Testing Users', () => {
       };
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.usersController.userService.users;
+      const users = usersRoute.parentsController.parentService.parents;
 
       users.findOne = jest.fn().mockReturnValue(null);
       users.create = jest.fn().mockReturnValue({
@@ -96,7 +96,7 @@ describe('Testing Users', () => {
       };
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.usersController.userService.users;
+      const users = usersRoute.parentsController.parentService.parents;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: userId,
@@ -121,7 +121,7 @@ describe('Testing Users', () => {
       const userId = 1;
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.usersController.userService.users;
+      const users = usersRoute.parentsController.parentService.parents;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: userId,

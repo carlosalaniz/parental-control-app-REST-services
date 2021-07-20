@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { CreateParentDto } from '@/dtos/parents.dto';
-import { Parent } from '@/interfaces/parents.interface';
-import { RequestWithUser } from '@interfaces/auth.interface';
 import AuthService from '@services/auth.service';
 
 class AuthController {
@@ -10,8 +8,7 @@ class AuthController {
   public signUp = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: CreateParentDto = req.body;
-      const signUpUserData: Parent = await this.authService.signup(userData);
-
+      const signUpUserData = await this.authService.signup(userData);
       res.status(201).json({ data: signUpUserData, message: 'signup' });
     } catch (error) {
       next(error);
@@ -21,22 +18,8 @@ class AuthController {
   public logIn = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const userData: CreateParentDto = req.body;
-      const { cookie, findUser } = await this.authService.login(userData);
-
-      res.setHeader('Set-Cookie', [cookie]);
-      res.status(200).json({ data: findUser, message: 'login' });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  public logOut = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    try {
-      const userData: Parent = req.user;
-      const logOutUserData: Parent = await this.authService.logout(userData);
-
-      res.setHeader('Set-Cookie', ['Authorization=; Max-age=0']);
-      res.status(200).json({ data: logOutUserData, message: 'logout' });
+      const { token, findUser } = await this.authService.authenticate(userData);
+      res.status(200).json({ data: { token, findUser }, message: 'authenticate' });
     } catch (error) {
       next(error);
     }

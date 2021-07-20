@@ -6,55 +6,55 @@ import { Parent } from '@/interfaces/parents.interface';
 import { isEmpty } from '@utils/util';
 
 class UserService {
-  public users = DB.Parents;
+  public parents = DB.Parents;
 
-  public async findAllUser(): Promise<Parent[]> {
-    const allUser: Parent[] = await this.users.findAll();
+  public async findAllParent(): Promise<Parent[]> {
+    const allUser: Parent[] = await this.parents.findAll();
     return allUser;
   }
 
-  public async findUserById(userId: number): Promise<Parent> {
-    if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
+  public async findParentById(userId: number): Promise<Parent> {
+    if (isEmpty(userId)) throw new HttpException(400, "You're not parentId");
 
-    const findUser: Parent = await this.users.findByPk(userId);
-    if (!findUser) throw new HttpException(409, "You're not user");
+    const findUser: Parent = await this.parents.findByPk(userId);
+    if (!findUser) throw new HttpException(409, "You're not parent");
 
     return findUser;
   }
 
-  public async createUser(userData: CreateParentDto): Promise<Parent> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async createParent(parentData: CreateParentDto): Promise<Parent> {
+    if (isEmpty(parentData)) throw new HttpException(400, "You're not parentData");
 
-    const findUser: Parent = await this.users.findOne({ where: { email: userData.email } });
-    if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+    const findUser: Parent = await this.parents.findOne({ where: { email: parentData.email } });
+    if (findUser) throw new HttpException(409, `You're email ${parentData.email} already exists`);
 
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    const createUserData: Parent = await this.users.create({ ...userData, password: hashedPassword });
+    const hashedPassword = await bcrypt.hash(parentData.password, 10);
+    const createUserData: Parent = await this.parents.create({ ...parentData, password: hashedPassword });
     return createUserData;
   }
 
-  public async updateUser(userId: number, userData: CreateParentDto): Promise<Parent> {
-    if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+  public async updateParent(parentId: number, parentData: CreateParentDto): Promise<Parent> {
+    if (isEmpty(parentData)) throw new HttpException(400, "You're not parentData");
 
-    const findUser: Parent = await this.users.findByPk(userId);
-    if (!findUser) throw new HttpException(409, "You're not user");
+    const findUser: Parent = await this.parents.findByPk(parentId);
+    if (!findUser) throw new HttpException(409, "You're not parent");
 
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    await this.users.update({ ...userData, password: hashedPassword }, { where: { id: userId } });
+    const hashedPassword = await bcrypt.hash(parentData.password, 10);
+    await this.parents.update({ ...parentData, password: hashedPassword }, { where: { id: parentId } });
 
-    const updateUser: Parent = await this.users.findByPk(userId);
+    const updateUser: Parent = await this.parents.findByPk(parentId);
     return updateUser;
   }
 
-  public async deleteUser(userId: number): Promise<Parent> {
-    if (isEmpty(userId)) throw new HttpException(400, "You're not userId");
+  public async deleteParent(parentId: number): Promise<Parent> {
+    if (isEmpty(parentId)) throw new HttpException(400, "You're not parentId");
 
-    const findUser: Parent = await this.users.findByPk(userId);
-    if (!findUser) throw new HttpException(409, "You're not user");
+    const findParent: Parent = await this.parents.findByPk(parentId);
+    if (!findParent) throw new HttpException(409, "You're not parent");
 
-    await this.users.destroy({ where: { id: userId } });
+    await this.parents.destroy({ where: { id: parentId } });
 
-    return findUser;
+    return findParent;
   }
 }
 

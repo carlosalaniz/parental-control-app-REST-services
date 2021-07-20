@@ -1,25 +1,26 @@
 import { Router } from 'express';
-import UsersController from '@/controllers/parents.controller';
+import ParentsController from '@/controllers/parents.controller';
 import { CreateParentDto } from '@/dtos/parents.dto';
 import { Routes } from '@interfaces/routes.interface';
 import validationMiddleware from '@middlewares/validation.middleware';
+import authParentMiddleware from '@/middlewares/auth.middleware';
 
-class UsersRoute implements Routes {
-  public path = '/users';
+class ParentRoute implements Routes {
+  public path = '/parents';
   public router = Router();
-  public usersController = new UsersController();
+  public parentsController = new ParentsController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.usersController.getUsers);
-    this.router.get(`${this.path}/:id(\\d+)`, this.usersController.getUserById);
-    this.router.post(`${this.path}`, validationMiddleware(CreateParentDto, 'body'), this.usersController.createUser);
-    this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateParentDto, 'body', true), this.usersController.updateUser);
-    this.router.delete(`${this.path}/:id(\\d+)`, this.usersController.deleteUser);
+    this.router.get(`${this.path}`, this.parentsController.getParents);
+    this.router.get(`${this.path}/:id(\\d+)`, this.parentsController.getParentById);
+    this.router.post(`${this.path}`, validationMiddleware(CreateParentDto, 'body'), this.parentsController.createParent);
+    this.router.put(`${this.path}/:id(\\d+)`, validationMiddleware(CreateParentDto, 'body', true), this.parentsController.updateParent);
+    this.router.delete(`${this.path}/:id(\\d+)`, this.parentsController.deleteParent);
   }
 }
 
-export default UsersRoute;
+export default ParentRoute;
