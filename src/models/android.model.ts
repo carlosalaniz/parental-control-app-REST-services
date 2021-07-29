@@ -1,10 +1,10 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { AndoridDevice } from '@/interfaces/android_device.interface';
+import { AndroidDevice } from '@/interfaces/devices.interface';
 import { DeviceModel } from './devices.model';
 
-export class AndroidDeviceModel extends Model<AndoridDevice> implements AndoridDevice {
+export class AndroidDeviceModel extends Model<AndroidDevice> implements AndroidDevice {
   fcm_registration_token: string;
-  device_id: number;
+  id: number;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -12,14 +12,19 @@ export class AndroidDeviceModel extends Model<AndoridDevice> implements AndoridD
 export default function (sequelize: Sequelize): typeof AndroidDeviceModel {
   AndroidDeviceModel.init(
     {
-      device_id: {
+      id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        unique: true,
+        allowNull: false,
+        references: {
+          model: DeviceModel,
+          key: 'id',
+        },
       },
       fcm_registration_token: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        unique: true,
       },
     },
     {
@@ -27,12 +32,12 @@ export default function (sequelize: Sequelize): typeof AndroidDeviceModel {
       sequelize,
     },
   );
-  AndroidDeviceModel.removeAttribute('id');
   AndroidDeviceModel.belongsTo(DeviceModel, {
+    as: 'Device',
     foreignKey: {
-      field: 'device_id',
-      allowNull: false,
+      field: 'id',
     },
+    onDelete: 'cascade',
   });
   return AndroidDeviceModel;
 }

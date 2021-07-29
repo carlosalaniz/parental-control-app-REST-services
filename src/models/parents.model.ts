@@ -5,7 +5,7 @@ export type ParentCreationAttributes = Optional<Parent, 'id' | 'email' | 'passwo
 
 export class ParentModel extends Model<Parent, ParentCreationAttributes> implements Parent {
   public full_name: string;
-  public phone_numer: string;
+  public phone_number: string;
   public address: string;
   public id: number;
   public email: string;
@@ -24,6 +24,7 @@ export default function (sequelize: Sequelize): typeof ParentModel {
         type: DataTypes.INTEGER,
       },
       email: {
+        unique: true,
         allowNull: false,
         type: DataTypes.STRING(45),
       },
@@ -39,7 +40,8 @@ export default function (sequelize: Sequelize): typeof ParentModel {
         allowNull: false,
         type: DataTypes.STRING(255),
       },
-      phone_numer: {
+      phone_number: {
+        unique: true,
         allowNull: false,
         type: DataTypes.STRING(50),
       },

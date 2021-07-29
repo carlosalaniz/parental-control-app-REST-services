@@ -7,7 +7,6 @@ import { HttpException } from '@exceptions/HttpException';
 import { DataStoredInToken, TokenData } from '@interfaces/auth.interface';
 import { Parent } from '@/interfaces/parents.interface';
 import { isEmpty } from '@utils/util';
-import { Child } from '@/interfaces/children.interface';
 
 class AuthService {
   public users = DB.Parents;
@@ -22,6 +21,7 @@ class AuthService {
     const createParentData: Parent = await this.users.create({ ...parentData, password: hashedPassword });
 
     const tokenData = this.createParentToken(createParentData);
+    createParentData.password = undefined;
     return { token: tokenData.token, parent: createParentData };
   }
 
@@ -33,9 +33,8 @@ class AuthService {
 
     const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
     if (!isPasswordMatching) throw new HttpException(409, "You're password not matching");
-
+    findUser.password = undefined;
     const tokenData = this.createParentToken(findUser);
-
     return { token: tokenData.token, findUser };
   }
 
@@ -45,7 +44,7 @@ class AuthService {
       type: 'Parent',
     };
     const secretKey: string = config.get('secretKey');
-    const expiresIn: number = 60 * 60; // in seconds or, a string with d,h,m for example 1h
+    const expiresIn: number = 60 * 60 * 24; // in seconds or, a string with d,h,m for example 1h
     return { expiresIn, token: jwt.sign(dataStoredInToken, secretKey, { expiresIn }) };
   }
 }

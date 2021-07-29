@@ -13,7 +13,7 @@ describe('Testing Users', () => {
   describe('[GET] /users', () => {
     it('response findAll users', async () => {
       const usersRoute = new UserRoute();
-      const users = usersRoute.parentsController.parentService.parents;
+      const users = usersRoute.parentsController.dbService.model;
 
       users.findAll = jest.fn().mockReturnValue([
         {
@@ -44,7 +44,7 @@ describe('Testing Users', () => {
       const userId = 1;
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.parentsController.parentService.parents;
+      const users = usersRoute.parentsController.dbService.model;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: 1,
@@ -65,11 +65,11 @@ describe('Testing Users', () => {
         password: 'q1w2e3r4!',
         full_name: 'Carlo Alaniz',
         address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
-        phone_numer: '+16073041892',
+        phone_number: '+16073041892',
       };
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.parentsController.parentService.parents;
+      const users = usersRoute.parentsController.dbService.model;
 
       users.findOne = jest.fn().mockReturnValue(null);
       users.create = jest.fn().mockReturnValue({
@@ -92,11 +92,11 @@ describe('Testing Users', () => {
         password: '1q2w3e4r!',
         full_name: 'Carlo Alaniz',
         address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
-        phone_numer: '+16073041892',
+        phone_number: '+16073041892',
       };
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.parentsController.parentService.parents;
+      const users = usersRoute.parentsController.dbService.model;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: userId,
@@ -121,7 +121,7 @@ describe('Testing Users', () => {
       const userId = 1;
 
       const usersRoute = new UserRoute();
-      const users = usersRoute.parentsController.parentService.parents;
+      const users = usersRoute.parentsController.dbService.model;
 
       users.findByPk = jest.fn().mockReturnValue({
         id: userId,

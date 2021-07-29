@@ -1,5 +1,6 @@
 import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Positions } from '@/interfaces/positions.interface';
+import { DeviceModel } from './devices.model';
 
 export type ParentCreationAttributes = Optional<Positions, 'id'>;
 
@@ -24,6 +25,10 @@ export default function (sequelize: Sequelize): typeof DevicePositionModel {
       device_id: {
         allowNull: false,
         type: DataTypes.INTEGER,
+        references: {
+          model: DeviceModel,
+          key: 'id',
+        },
       },
       request_date: {
         allowNull: false,

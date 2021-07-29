@@ -17,7 +17,7 @@ describe('Testing Auth', () => {
         password: 'q1w2e3r4!',
         full_name: 'Carlo Alaniz',
         address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
-        phone_numer: '+16073041892',
+        phone_number: '+16073041892',
       };
 
       const authRoute = new AuthRoute();
@@ -43,7 +43,7 @@ describe('Testing Auth', () => {
         password: 'q1w2e3r4!',
         full_name: 'Carlo Alaniz',
         address: '1206 Honeysuckle ln, Pflugerville, Texas 78660',
-        phone_numer: '+16073041892',
+        phone_number: '+16073041892',
       };
 
       const authRoute = new AuthRoute();

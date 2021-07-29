@@ -12,9 +12,10 @@ export interface TokenData {
   expiresIn: number;
 }
 
-export interface RequestWithParentOrDevice extends Request {
-  user: {
-    user: Parent | Device;
-    type: 'Device' | 'Parent';
-  };
+export interface RequestWithParent extends Request {
+  user: Parent;
+}
+
+export interface RequestWithDevice extends Request {
+  device: Device;
 }

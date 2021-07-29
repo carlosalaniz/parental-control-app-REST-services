@@ -1,4 +1,4 @@
-import { IsString, IsDateString, IsInt } from 'class-validator';
+import { IsString, IsDateString, IsInt, IsPhoneNumber } from 'class-validator';
 
 export class CreateChildDto {
   @IsString()
@@ -9,4 +9,7 @@ export class CreateChildDto {
 
   @IsInt()
   public gender: number;
+
+  @IsPhoneNumber()
+  public phone_number: string;
 }

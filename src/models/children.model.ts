@@ -2,7 +2,7 @@ import { Sequelize, DataTypes, Model, Optional } from 'sequelize';
 import { Child } from '@/interfaces/children.interface';
 import { ParentModel } from './parents.model';
 
-export type ChildCreationAttributes = Optional<Child, 'id' | 'parent_id' | 'name'>;
+export type ChildCreationAttributes = Optional<Child, 'id' | 'parent_id'>;
 
 export class ChildModel extends Model<Child, ChildCreationAttributes> implements Child {
   id: number;
@@ -26,6 +26,11 @@ export default function (sequelize: Sequelize): typeof ChildModel {
       },
       parent_id: {
         type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: ParentModel,
+          key: 'id',
+        },
       },
       name: {
         allowNull: false,
@@ -41,6 +46,7 @@ export default function (sequelize: Sequelize): typeof ChildModel {
       },
       phone_number: {
         allowNull: false,
+        unique: true,
         type: DataTypes.STRING(50),
       },
     },
@@ -49,11 +55,5 @@ export default function (sequelize: Sequelize): typeof ChildModel {
       sequelize,
     },
   );
-  ChildModel.belongsTo(ParentModel, {
-    foreignKey: {
-      field: 'parent_id',
-      allowNull: false,
-    },
-  });
   return ChildModel;
 }

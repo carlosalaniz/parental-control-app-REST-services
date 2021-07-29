@@ -34,10 +34,10 @@ REST services that support parental control application
 | [device_policy_id](#android-reports-nosql) | String(50) | Ref. to NoSQL record               |
 
 ##### Device-Android Model extends [Device Model](#device-model-rdb) (RDB)
-| Field                          | Type        |                                          |
-| ------------------------------ | ----------- | ---------------------------------------- |
-| [device_id](#device-model-rdb) | Integer     | PK, FK to [Device](#device-model-rdb).id |
-| fcm_registration_token         | String(512) |
+| Field                   | Type        |                                          |
+| ----------------------- | ----------- | ---------------------------------------- |
+| [id](#device-model-rdb) | Integer     | PK, FK to [Device](#device-model-rdb).id |
+| fcm_registration_token  | String(512) |
 
 ##### Command Model (RDB)
 | Field                                     | Type    |                                      |
@@ -108,7 +108,7 @@ REST services that support parental control application
 
 Authentication  - prefix ```/```
 
-| Methods | Endpoint      | Body Type       | Return Type                                                  |                             |
-| ------- | ------------- | --------------- | ------------------------------------------------------------ | --------------------------- |
-| POST    | /signup       | CreateParentDto | {data:{token:string, parent:Parent}, message:"login"}        |                             |
-| POST    | /authenticate | LoginParentDto  | {data:{token:string, parent:Parent}, message:"authenticate"} | JWT with Parent {id:number, type:'Parent'|'Device} |
+| Methods | Endpoint      | Body Type       | Return Type                                                  |                                           |
+| ------- | ------------- | --------------- | ------------------------------------------------------------ | ----------------------------------------- |
+| POST    | /signup       | CreateParentDto | {data:{token:string, parent:Parent}, message:"login"}        |                                           |
+| POST    | /authenticate | LoginParentDto  | {data:{token:string, parent:Parent}, message:"authenticate"} | JWT with Parent {id:number, type:'Parent' | 'Device} |

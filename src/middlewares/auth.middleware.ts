@@ -3,10 +3,10 @@ import config from 'config';
 import jwt from 'jsonwebtoken';
 import DB from '@databases';
 import { HttpException } from '@exceptions/HttpException';
-import { DataStoredInToken, RequestWithParentOrDevice } from '@interfaces/auth.interface';
+import { DataStoredInToken, RequestWithDevice, RequestWithParent } from '@interfaces/auth.interface';
 
-const authParentMiddleware = (): RequestHandler => {
-  return async (req: RequestWithParentOrDevice, res: Response, next: NextFunction) => {
+export const authParentMiddleware = (): RequestHandler => {
+  return async (req: RequestWithParent, res: Response, next: NextFunction) => {
     try {
       const Authorization = req.cookies['Authorization'] || req.header('Authorization').split('Bearer ')[1] || null;
       if (Authorization) {
@@ -16,10 +16,7 @@ const authParentMiddleware = (): RequestHandler => {
         const userId = verificationResponse.id;
         const findUser = await DB.Parents.findByPk(userId);
         if (verificationResponse.type == 'Parent' && findUser !== null) {
-          req.user = {
-            user: findUser,
-            type: 'Parent',
-          };
+          req.user = findUser;
           next();
         } else {
           next(new HttpException(401, 'Wrong authentication token'));
@@ -33,8 +30,8 @@ const authParentMiddleware = (): RequestHandler => {
   };
 };
 
-const authChildDeviceMiddleware = (): RequestHandler => {
-  return async (req: RequestWithParentOrDevice, res: Response, next: NextFunction) => {
+export const authChildDeviceMiddleware = (): RequestHandler => {
+  return async (req: RequestWithDevice, res: Response, next: NextFunction) => {
     try {
       const Authorization = req.cookies['Authorization'] || req.header('Authorization').split('Bearer ')[1] || null;
       if (Authorization) {
@@ -44,10 +41,7 @@ const authChildDeviceMiddleware = (): RequestHandler => {
         const deviceId = verificationResponse.id;
         const findDevice = await DB.Devices.findByPk(deviceId);
         if (verificationResponse.type == 'Parent' && findDevice !== null) {
-          req.user = {
-            user: findDevice,
-            type: 'Device',
-          };
+          req.device = findDevice;
           next();
         } else {
           next(new HttpException(401, 'Wrong authentication token'));
@@ -60,4 +54,3 @@ const authChildDeviceMiddleware = (): RequestHandler => {
     }
   };
 };
-export default { authParentMiddleware, authChildDeviceMiddleware };

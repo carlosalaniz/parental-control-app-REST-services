@@ -12,7 +12,7 @@ export class CreateParentDto {
   public address: string;
 
   @IsString()
-  public phone_numer: string;
+  public phone_number: string;
 
   @IsString()
   public full_name: string;

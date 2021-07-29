@@ -1,21 +1,16 @@
-import { DevicePolicy } from '@/interfaces/android_device.interface';
-import { prop, getModelForClass } from '@typegoose/typegoose';
-import { Schema } from 'mongoose';
-
+import { DevicePolicy } from '@/interfaces/devices.interface';
+import { prop, getModelForClass, ReturnModelType } from '@typegoose/typegoose';
+import { Optional } from 'sequelize/types';
+export type AndroidDevicePolicyModelType = ReturnModelType<typeof AndroidDevicePolicyModel>;
+export type AndroidDevicePolicyCreationAttributes = Optional<DevicePolicy, 'application_daily_usage_limits' | 'phone_daily_usage_limit'>;
 export class AndroidDevicePolicyModel implements DevicePolicy {
   @prop()
-  _id: Schema.Types.ObjectId;
-  @prop()
-  application_daily_usage_limits: Map<string, number>;
+  application_daily_usage_limits: { [key: string]: number };
   @prop()
   phone_daily_usage_limit: number;
-  @prop()
-  public name?: string;
-  @prop({ type: () => [String] })
-  public jobs?: string[];
 }
 
-export default function () {
-  const model = getModelForClass(AndroidDevicePolicyModel); // UserModel is a regular Mongoose Model with correct types
+export default function (): AndroidDevicePolicyModelType {
+  const model = getModelForClass(AndroidDevicePolicyModel);
   return model;
 }

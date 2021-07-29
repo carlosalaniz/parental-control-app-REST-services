@@ -1,7 +1,7 @@
 import config from 'config';
 import Sequelize from 'sequelize';
 import { sqlDbConfig, noSQLDbConfig } from '@interfaces/db.interface';
-import UserModel from '@/models/parents.model';
+import ParentModel from '@/models/parents.model';
 import { logger } from '@utils/logger';
 import ChildModel from '@/models/children.model';
 import DeviceModel from '@/models/devices.model';
@@ -45,14 +45,16 @@ const sequelize = new Sequelize.Sequelize(database, user, password, {
 
 sequelize.authenticate();
 
+const AndroidDevicePolicies = AndroidDevicePolicyModel();
+const AndroidDeviceReports = AndroidDeviceReportModel();
 const DB = {
-  Parents: UserModel(sequelize),
+  AndroidDevicePolicies,
+  AndroidDeviceReports,
+  Parents: ParentModel(sequelize),
   Children: ChildModel(sequelize),
+  Devices: DeviceModel(sequelize, AndroidDevicePolicies),
   DevicePositions: DevicePositions(sequelize),
-  Devices: DeviceModel(sequelize),
   AndroidDevices: AndroidDeviceModel(sequelize),
-  AndroidDevicePolicies: AndroidDevicePolicyModel(),
-  AndroidDeviceReports: AndroidDeviceReportModel(),
   sequelize, // connection instance (RAW queries)
   Sequelize, // library
   typegoose, // connection instance (RAW quieries)

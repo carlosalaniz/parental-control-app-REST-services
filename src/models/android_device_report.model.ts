@@ -1,16 +1,13 @@
-import { AndroidDeviceReport } from '@/interfaces/android_device.interface';
-import { prop, getModelForClass } from '@typegoose/typegoose';
-import { Schema } from 'mongoose';
+import { AndroidDeviceReport } from '@/interfaces/devices.interface';
+import { prop, getModelForClass, DocumentType } from '@typegoose/typegoose';
 
 export class AndroidDeviceReportModel implements AndroidDeviceReport {
-  @prop()
-  _id: Schema.Types.ObjectId;
   @prop()
   device_id: number;
   @prop()
   report_date: Date;
   @prop()
-  application_daily_usage_report: Map<string, number>;
+  application_daily_usage_report: { [key: string]: number };
   @prop()
   phone_daily_usage_report: number;
   @prop()
@@ -19,5 +16,6 @@ export class AndroidDeviceReportModel implements AndroidDeviceReport {
 
 export default function () {
   const model = getModelForClass(AndroidDeviceReportModel); // UserModel is a regular Mongoose Model with correct types
+  model.findOne({}).then((a: DocumentType<Object>) => a.remove());
   return model;
 }

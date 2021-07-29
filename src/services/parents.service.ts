@@ -1,61 +1,37 @@
 import bcrypt from 'bcrypt';
 import DB from '@databases';
 import { CreateParentDto } from '@/dtos/parents.dto';
-import { HttpException } from '@exceptions/HttpException';
 import { Parent } from '@/interfaces/parents.interface';
-import { isEmpty } from '@utils/util';
+import CRUDService from './basecrud.service';
+import { HttpException } from '@/exceptions/HttpException';
+import { isEmpty } from '@/utils/util';
 
-class UserService {
-  public parents = DB.Parents;
-
-  public async findAllParent(): Promise<Parent[]> {
-    const allUser: Parent[] = await this.parents.findAll();
-    return allUser;
+class ParentService extends CRUDService<Parent, CreateParentDto> {
+  public model = DB.Parents;
+  public createDataType = 'CreateParentDto';
+  public async findAll() {
+    const all: Parent[] = await this.model.findAll({ attributes: { exclude: ['password'] } });
+    return all;
   }
 
-  public async findParentById(userId: number): Promise<Parent> {
-    if (isEmpty(userId)) throw new HttpException(400, "You're not parentId");
+  public async findById(recordId: number): Promise<Parent> {
+    if (isEmpty(recordId)) throw new HttpException(400, "You're not parentId");
 
-    const findUser: Parent = await this.parents.findByPk(userId);
-    if (!findUser) throw new HttpException(409, "You're not parent");
+    const findOne: Parent = await this.model.findByPk(recordId, { attributes: { exclude: ['password'] } });
+    if (!findOne) throw new HttpException(409, "You're not parent");
 
-    return findUser;
+    return findOne;
   }
 
-  public async createParent(parentData: CreateParentDto): Promise<Parent> {
-    if (isEmpty(parentData)) throw new HttpException(400, "You're not parentData");
-
-    const findUser: Parent = await this.parents.findOne({ where: { email: parentData.email } });
-    if (findUser) throw new HttpException(409, `You're email ${parentData.email} already exists`);
-
+  public async create(parentData: CreateParentDto): Promise<Parent> {
     const hashedPassword = await bcrypt.hash(parentData.password, 10);
-    const createUserData: Parent = await this.parents.create({ ...parentData, password: hashedPassword });
-    return createUserData;
+    return super.create({ ...parentData, password: hashedPassword });
   }
 
-  public async updateParent(parentId: number, parentData: CreateParentDto): Promise<Parent> {
-    if (isEmpty(parentData)) throw new HttpException(400, "You're not parentData");
-
-    const findUser: Parent = await this.parents.findByPk(parentId);
-    if (!findUser) throw new HttpException(409, "You're not parent");
-
+  public async update(parentId: number, parentData: CreateParentDto): Promise<Parent> {
     const hashedPassword = await bcrypt.hash(parentData.password, 10);
-    await this.parents.update({ ...parentData, password: hashedPassword }, { where: { id: parentId } });
-
-    const updateUser: Parent = await this.parents.findByPk(parentId);
-    return updateUser;
-  }
-
-  public async deleteParent(parentId: number): Promise<Parent> {
-    if (isEmpty(parentId)) throw new HttpException(400, "You're not parentId");
-
-    const findParent: Parent = await this.parents.findByPk(parentId);
-    if (!findParent) throw new HttpException(409, "You're not parent");
-
-    await this.parents.destroy({ where: { id: parentId } });
-
-    return findParent;
+    return super.update(parentId, { ...parentData, password: hashedPassword });
   }
 }
 
-export default UserService;
+export default ParentService;

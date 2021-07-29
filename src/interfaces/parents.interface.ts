@@ -3,7 +3,7 @@ export interface Parent {
   email: string;
   password: string;
   full_name: string;
-  phone_numer: string;
+  phone_number: string;
   address: string;
   //TODO: Add stripe payments.
 }

@@ -11,7 +11,8 @@
     "build": "tsc && npx tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@typegoose/typegoose": "^7.6.3",
@@ -30,7 +31,7 @@
     "hpp": "^0.2.3",
     "jest": "^27.0.6",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.13.2",
+    "mongoose": "5.10.18",
     "morgan": "^1.10.0",
     "mysql2": "^2.2.5",
     "sequelize": "^6.6.5",
@@ -54,7 +55,7 @@
     "@types/hpp": "^0.2.1",
     "@types/jest": "^26.0.24",
     "@types/jsonwebtoken": "^8.5.4",
-    "@types/mongoose": "^5.11.97",
+    "@types/mongoose": "^5.10.5",
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.0.1",
     "@types/sequelize": "^4.28.10",
